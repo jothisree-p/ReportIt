@@ -27,6 +27,80 @@ import {
   FaChartPie,
 
 } from "react-icons/fa";
+import { getComplaints } from "./complaintsData";
+
+const defaultUsers = [
+  {
+    initials:"RS",
+    name:"Rahul Sharma",
+    fullName:"Rahul Sharma",
+    email:"rahul@email.com",
+    phone:"+91 98765 55555",
+    password:"rahul123",
+    status:"Active",
+    joined:"2026-05-12",
+  },
+  {
+    initials:"PS",
+    name:"Priya Singh",
+    fullName:"Priya Singh",
+    email:"priya@email.com",
+    phone:"+91 98765 66666",
+    password:"priya123",
+    status:"Active",
+    joined:"2026-05-14",
+  },
+  {
+    initials:"AK",
+    name:"Amit Kumar",
+    fullName:"Amit Kumar",
+    email:"amit@email.com",
+    phone:"+91 98765 77777",
+    password:"amit123",
+    status:"Active",
+    joined:"2026-05-18",
+  },
+];
+
+const getStoredUsers = () => {
+  const users =
+    JSON.parse(
+      localStorage.getItem("users")
+    ) || [];
+
+  const citizenData =
+    JSON.parse(
+      localStorage.getItem("citizenData")
+    );
+
+  const mergedUsers = users.length > 0 ? users : defaultUsers;
+
+  if(
+    citizenData &&
+    !mergedUsers.some((user) => user.email === citizenData.email)
+  ){
+    mergedUsers.unshift({
+      id: Date.now(),
+      initials:(citizenData.fullName || citizenData.name || "Citizen")
+        .split(" ")
+        .filter(Boolean)
+        .slice(0, 2)
+        .map((part) => part[0]?.toUpperCase())
+        .join(""),
+      name: citizenData.fullName || citizenData.name || "Citizen",
+      fullName: citizenData.fullName || citizenData.name || "Citizen",
+      email: citizenData.email,
+      phone: citizenData.phone || "",
+      password: citizenData.password || "",
+      status:"Active",
+      joined: citizenData.joined || "",
+    });
+  }
+
+  localStorage.setItem("users", JSON.stringify(mergedUsers));
+
+  return mergedUsers;
+};
 
 const ManageUsers = () => {
 
@@ -34,6 +108,9 @@ const ManageUsers = () => {
 
   const [searchTerm,setSearchTerm] =
   useState("");
+
+  const [selectedUser,setSelectedUser] =
+  useState(null);
 
   /* ================= PAGINATION ================= */
 
@@ -44,65 +121,32 @@ const ManageUsers = () => {
 
   /* ================= USERS ================= */
 
-  const users = [
-
-    {
-      initials:"RS",
-      name:"Rahul Sharma",
-      email:"rahul@email.com",
-      phone:"+91 98765 55555",
-      complaints:3,
-      status:"Active",
-    },
-
-    {
-      initials:"PS",
-      name:"Priya Singh",
-      email:"priya@email.com",
-      phone:"+91 98765 66666",
-      complaints:2,
-      status:"Active",
-    },
-
-    {
-      initials:"AK",
-      name:"Amit Kumar",
-      email:"amit@email.com",
-      phone:"+91 98765 77777",
-      complaints:1,
-      status:"Active",
-    },
-
-    {
-      initials:"SR",
-      name:"Sneha Reddy",
-      email:"sneha@email.com",
-      phone:"+91 98765 88888",
-      complaints:1,
-      status:"Active",
-    },
-
-    {
-      initials:"KM",
-      name:"Karan Mehta",
-      email:"karan@email.com",
-      phone:"+91 98765 99999",
-      complaints:1,
-      status:"Blocked",
-    },
-
-  ];
+  const complaints = getComplaints();
+  const users =
+    getStoredUsers().map((user) => ({
+      ...user,
+      complaints: complaints.filter(
+        (complaint) =>
+          complaint.citizenEmail === user.email ||
+          complaint.citizen === user.name ||
+          complaint.citizen === user.fullName
+      ).length,
+    }));
 
   /* ================= FILTER ================= */
 
   const filteredUsers =
   users.filter((user)=>
 
-    user.name
+    [
+      user.name,
+      user.fullName,
+      user.email,
+      user.phone,
+    ]
+    .join(" ")
     .toLowerCase()
-    .includes(
-      searchTerm.toLowerCase()
-    )
+    .includes(searchTerm.toLowerCase())
 
   );
 
@@ -367,6 +411,9 @@ const ManageUsers = () => {
                   <div
                     className="users-table-row"
                     key={index}
+                    onClick={() =>
+                      setSelectedUser(user)
+                    }
                   >
 
                     {/* NAME */}
@@ -449,11 +496,17 @@ const ManageUsers = () => {
 
                         ?
 
-                        <FaUserSlash className="block-icon" />
+                        <FaUserSlash
+                          className="block-icon"
+                          onClick={(e) => e.stopPropagation()}
+                        />
 
                         :
 
-                        <FaUserCheck className="unblock-icon" />
+                        <FaUserCheck
+                          className="unblock-icon"
+                          onClick={(e) => e.stopPropagation()}
+                        />
 
                       }
 
@@ -541,6 +594,94 @@ const ManageUsers = () => {
             </button>
 
           </div>
+
+          {
+
+            selectedUser && (
+
+              <div
+                className="user-modal-overlay"
+                onClick={() => setSelectedUser(null)}
+              >
+
+                <div
+                  className="user-modal"
+                  onClick={(e) => e.stopPropagation()}
+                >
+
+                  <button
+                    className="user-modal-close"
+                    onClick={() => setSelectedUser(null)}
+                  >
+
+                    X
+
+                  </button>
+
+                  <div className="user-modal-header">
+
+                    <div className="user-modal-avatar">
+
+                      {selectedUser.initials}
+
+                    </div>
+
+                    <div>
+
+                      <h2>{selectedUser.fullName || selectedUser.name}</h2>
+
+                      <p>{selectedUser.email}</p>
+
+                    </div>
+
+                  </div>
+
+                  <div className="user-detail-grid">
+
+                    <div>
+                      <span>Full Name</span>
+                      <strong>{selectedUser.fullName || selectedUser.name}</strong>
+                    </div>
+
+                    <div>
+                      <span>Email</span>
+                      <strong>{selectedUser.email}</strong>
+                    </div>
+
+                    <div>
+                      <span>Phone</span>
+                      <strong>{selectedUser.phone || "Not Provided"}</strong>
+                    </div>
+
+                    <div>
+                      <span>Password</span>
+                      <strong>{selectedUser.password || "Not Set"}</strong>
+                    </div>
+
+                    <div>
+                      <span>Status</span>
+                      <strong>{selectedUser.status}</strong>
+                    </div>
+
+                    <div>
+                      <span>Joined</span>
+                      <strong>{selectedUser.joined || "Not Available"}</strong>
+                    </div>
+
+                    <div>
+                      <span>Total Complaints</span>
+                      <strong>{selectedUser.complaints}</strong>
+                    </div>
+
+                  </div>
+
+                </div>
+
+              </div>
+
+            )
+
+          }
 
         </div>
 

@@ -109,6 +109,45 @@ const CitizenSignup = () => {
 
     );
 
+    const users =
+      JSON.parse(
+        localStorage.getItem("users")
+      ) || [];
+
+    const existingUserIndex =
+      users.findIndex((user) => user.email === email);
+
+    const newUser = {
+      id: Date.now(),
+      initials: fullName
+        .split(" ")
+        .filter(Boolean)
+        .slice(0, 2)
+        .map((part) => part[0]?.toUpperCase())
+        .join(""),
+      name: fullName,
+      fullName,
+      email,
+      phone,
+      password,
+      status: "Active",
+      joined: new Date().toISOString().slice(0, 10),
+    };
+
+    const updatedUsers =
+      existingUserIndex >= 0
+        ? users.map((user,index) =>
+            index === existingUserIndex
+              ? { ...user, ...newUser }
+              : user
+          )
+        : [newUser, ...users];
+
+    localStorage.setItem(
+      "users",
+      JSON.stringify(updatedUsers)
+    );
+
     setCurrentCitizen({
       fullName,
       email,

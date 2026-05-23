@@ -222,6 +222,14 @@ body{
   padding:24px 28px;
 
   border-bottom:1px solid rgba(255,255,255,0.05);
+
+  cursor:pointer;
+
+  transition:background 0.2s ease;
+}
+
+.users-table-row:hover{
+  background:#101a46;
 }
 
 .users-table-row:last-child{
@@ -395,4 +403,127 @@ body{
   background:#00bfff !important;
 
   color:#05071d !important;
+}
+
+/* USER DETAILS MODAL */
+
+.user-modal-overlay{
+  position:fixed;
+  inset:0;
+  z-index:50;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  padding:24px;
+  background:rgba(3,6,22,0.78);
+  backdrop-filter:blur(8px);
+}
+
+.user-modal{
+  position:relative;
+  width:min(760px, 100%);
+  max-height:90vh;
+  overflow-y:auto;
+  background:#0c1435;
+  border:1px solid rgba(255,255,255,0.08);
+  border-radius:20px;
+  padding:34px;
+  box-shadow:0 24px 70px rgba(0,0,0,0.45);
+}
+
+.user-modal-close{
+  position:absolute;
+  top:18px;
+  right:18px;
+  width:38px;
+  height:38px;
+  border:none;
+  border-radius:50%;
+  background:#132264;
+  color:#00bfff;
+  font-size:15px;
+  font-weight:800;
+  cursor:pointer;
+}
+
+.user-modal-header{
+  display:flex;
+  align-items:center;
+  gap:18px;
+  padding-right:48px;
+  margin-bottom:28px;
+}
+
+.user-modal-avatar{
+  width:78px;
+  height:78px;
+  border-radius:50%;
+  background:#10215f;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  color:#00bfff;
+  font-size:26px;
+  font-weight:800;
+  flex-shrink:0;
+}
+
+.user-modal-header h2{
+  margin:0 0 8px;
+  color:white;
+  font-size:34px;
+  line-height:1.15;
+}
+
+.user-modal-header p{
+  margin:0;
+  color:#9ca3d2;
+  font-size:17px;
+  overflow-wrap:anywhere;
+}
+
+.user-detail-grid{
+  display:grid;
+  grid-template-columns:repeat(2, minmax(0, 1fr));
+  gap:16px;
+}
+
+.user-detail-grid div{
+  min-height:92px;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  gap:10px;
+  padding:18px;
+  background:#10183d;
+  border:1px solid rgba(255,255,255,0.07);
+  border-radius:14px;
+}
+
+.user-detail-grid span{
+  color:#93a2df;
+  font-size:14px;
+  font-weight:500;
+}
+
+.user-detail-grid strong{
+  color:white;
+  font-size:21px;
+  line-height:1.25;
+  overflow-wrap:anywhere;
+}
+
+@media(max-width:760px){
+  .user-modal{
+    padding:26px;
+  }
+
+  .user-modal-header{
+    align-items:flex-start;
+    flex-direction:column;
+  }
+
+  .user-detail-grid{
+    grid-template-columns:1fr;
+  }
 }
