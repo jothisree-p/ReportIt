@@ -5,6 +5,12 @@ import { useNavigate } from "react-router-dom";
 import "./OfficerComplaintDetails.css";
 
 import AIChat from "./AIChat";
+import {
+  getCurrentOfficer,
+  getOfficerDisplayName,
+  getOfficerInitials,
+  getOfficerWelcomeText,
+} from "./officerSession";
 
 import {
 
@@ -23,6 +29,7 @@ import {
 const OfficerComplaintDetails = () => {
 
   const navigate = useNavigate();
+  const officer = getCurrentOfficer();
 
   const [showNotifications,
   setShowNotifications] =
@@ -294,8 +301,7 @@ const OfficerComplaintDetails = () => {
 
             <h3>
 
-              Welcome back,
-              Inspector Rithana
+              {getOfficerWelcomeText(officer)}
 
             </h3>
 
@@ -352,7 +358,7 @@ const OfficerComplaintDetails = () => {
 
             <div className="profile-circle">
 
-              IR
+              {getOfficerInitials(officer)}
 
             </div>
 
@@ -570,6 +576,8 @@ const OfficerComplaintDetails = () => {
                 onClick={sendNotification}
               >
 
+                <FaPaperPlane />
+
                 Send Notification
 
               </button>
@@ -649,7 +657,7 @@ const OfficerComplaintDetails = () => {
 
                     <span>
 
-                      Assigned to Inspector Rithana
+                      Assigned to {getOfficerDisplayName(officer)}
 
                     </span>
 

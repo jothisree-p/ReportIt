@@ -10,6 +10,12 @@ from "react-router-dom";
 import "./AssignedCases.css";
 
 import AIChat from "./AIChat";
+import {
+  getCurrentOfficer,
+  getOfficerInitials,
+  getOfficerWelcomeText,
+} from "./officerSession";
+import { getComplaints } from "./complaintsData";
 
 import {
 
@@ -27,6 +33,7 @@ import {
 const AssignedCases = () => {
 
   const navigate = useNavigate();
+  const officer = getCurrentOfficer();
 
   const [showNotifications,
   setShowNotifications] =
@@ -50,49 +57,7 @@ const AssignedCases = () => {
 
   /* ================= DATA ================= */
 
-  const cases = [
-
-    {
-      id:"CMP-2024-001",
-      title:"Bike Theft at Market Area",
-      citizen:"Rahul Sharma",
-      priority:"High",
-      status:"In Progress",
-    },
-
-    {
-      id:"CMP-2024-004",
-      title:"Road Accident Near Highway Junction",
-      citizen:"Sneha Reddy",
-      priority:"Critical",
-      status:"Resolved",
-    },
-
-    {
-      id:"CMP-2024-007",
-      title:"Vandalism at Community Center",
-      citizen:"Priya Singh",
-      priority:"Medium",
-      status:"Pending",
-    },
-
-    {
-      id:"CMP-2024-010",
-      title:"Cyber Fraud Complaint",
-      citizen:"Amit Kumar",
-      priority:"High",
-      status:"Pending",
-    },
-
-    {
-      id:"CMP-2024-011",
-      title:"Street Fight Near Mall",
-      citizen:"Karan Mehta",
-      priority:"Critical",
-      status:"In Progress",
-    },
-
-  ];
+  const cases = getComplaints();
 
   /* ================= FILTER ================= */
 
@@ -309,8 +274,7 @@ const AssignedCases = () => {
 
             <h3>
 
-              Welcome back,
-              Inspector Rithana !
+              {getOfficerWelcomeText(officer)}
 
             </h3>
 
@@ -465,7 +429,7 @@ const AssignedCases = () => {
               }
             >
 
-              IR
+              {getOfficerInitials(officer)}
 
             </div>
 

@@ -30,7 +30,9 @@ const AddOfficer = () => {
     initials:"",
     name:"",
     email:"",
+    password:"",
     badge:"",
+    position:"",
     zone:"",
     active:"",
     status:"Active",
@@ -55,6 +57,16 @@ const AddOfficer = () => {
   /* ================= SAVE ================= */
 
   const handleSave = () => {
+
+    if(!formData.email.endsWith("@reportit.com")){
+      alert("Officer email must end with @reportit.com");
+      return;
+    }
+
+    if(!formData.password){
+      alert("Please set a password for officer login");
+      return;
+    }
 
     const officers =
 
@@ -311,6 +323,23 @@ const AddOfficer = () => {
 
             </div>
 
+            {/* PASSWORD */}
+
+            <div className="form-group">
+
+              <label>
+                Login Password
+              </label>
+
+              <input
+                type="text"
+                name="password"
+                value={formData.password}
+                onChange={handleChange}
+              />
+
+            </div>
+
             {/* BADGE */}
 
             <div className="form-group">
@@ -323,6 +352,24 @@ const AddOfficer = () => {
                 type="text"
                 name="badge"
                 value={formData.badge}
+                onChange={handleChange}
+              />
+
+            </div>
+
+            {/* POSITION */}
+
+            <div className="form-group">
+
+              <label>
+                Position
+              </label>
+
+              <input
+                type="text"
+                name="position"
+                placeholder="Eg: Inspector"
+                value={formData.position}
                 onChange={handleChange}
               />
 

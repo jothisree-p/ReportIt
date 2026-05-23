@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import "./ReportDetails.css";
 
 import AIChat from "./AIChat";
+import { saveComplaint } from "./complaintsData";
 
 import {
 
@@ -158,6 +159,16 @@ const ReportDetails = () => {
   const handleSubmit = (e) => {
 
     e.preventDefault();
+
+    saveComplaint({
+      title:formData.title,
+      description:formData.description,
+      location:formData.location,
+      date:formData.date,
+      incidentTime:formData.incidentTime,
+      category:"General",
+      priority:"Medium",
+    });
 
     alert(
       "Crime Report Submitted Successfully!"

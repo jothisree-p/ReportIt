@@ -25,7 +25,9 @@ const EditOfficer = () => {
 
     name: officer?.name || "",
     email: officer?.email || "",
+    password: officer?.password || "",
     badge: officer?.badge || "",
+    position: officer?.position || "",
     zone: officer?.zone || "",
     active: officer?.active || "",
     status: officer?.status || "",
@@ -50,6 +52,33 @@ const EditOfficer = () => {
   /* ================= SAVE ================= */
 
   const handleSave = () => {
+
+    if(!formData.email.endsWith("@reportit.com")){
+      alert("Officer email must end with @reportit.com");
+      return;
+    }
+
+    if(!formData.password){
+      alert("Please set a password for officer login");
+      return;
+    }
+
+    const officers =
+      JSON.parse(
+        localStorage.getItem("officers")
+      ) || [];
+
+    const updatedOfficers =
+      officers.map((item) =>
+        item.id === officer?.id
+        ? { ...item, ...formData }
+        : item
+      );
+
+    localStorage.setItem(
+      "officers",
+      JSON.stringify(updatedOfficers)
+    );
 
     alert(
       "Officer details updated successfully!"
@@ -130,6 +159,36 @@ const EditOfficer = () => {
             type="text"
             name="badge"
             value={formData.badge}
+            onChange={handleChange}
+          />
+
+        </div>
+
+        <div className="form-group">
+
+          <label>
+            Login Password
+          </label>
+
+          <input
+            type="text"
+            name="password"
+            value={formData.password}
+            onChange={handleChange}
+          />
+
+        </div>
+
+        <div className="form-group">
+
+          <label>
+            Position
+          </label>
+
+          <input
+            type="text"
+            name="position"
+            value={formData.position}
             onChange={handleChange}
           />
 

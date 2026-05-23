@@ -412,6 +412,39 @@ const OfficerDetails = () => {
 
               <span>
 
+                Login Password
+
+              </span>
+
+              {
+
+                isEditing ? (
+
+                  <input
+                    type="text"
+                    name="password"
+                    value={officer.password || ""}
+                    onChange={handleChange}
+                  />
+
+                ) : (
+
+                  <h2>
+
+                    {officer.password || "Not Set"}
+
+                  </h2>
+
+                )
+
+              }
+
+            </div>
+
+            <div className="detail-card">
+
+              <span>
+
                 Age
 
               </span>

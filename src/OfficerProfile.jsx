@@ -5,6 +5,12 @@ import { useNavigate } from "react-router-dom";
 import "./OfficerProfile.css";
 
 import AIChat from "./AIChat";
+import {
+  getCurrentOfficer,
+  getOfficerInitials,
+  getOfficerPosition,
+  getOfficerWelcomeText,
+} from "./officerSession";
 
 import {
 
@@ -28,6 +34,7 @@ import {
 const OfficerProfile = () => {
 
   const navigate = useNavigate();
+  const currentOfficer = getCurrentOfficer();
 
   const [showNotifications,
   setShowNotifications] =
@@ -55,15 +62,15 @@ const OfficerProfile = () => {
 
     savedOfficer || {
 
-      name:"Inspector Rithana",
+      name:currentOfficer.name || "Rithana",
 
-      email:"rithana@reportit.com",
+      email:currentOfficer.email || "rithana@reportit.com",
 
       phone:"+91 9876543210",
 
-      badgeId:"IR-2045",
+      badgeId:currentOfficer.badge || currentOfficer.badgeId || "IR-2045",
 
-      rank:"Inspector",
+      rank:currentOfficer.position || currentOfficer.rank || "Inspector",
 
       station:"Central Police Station",
 
@@ -71,7 +78,7 @@ const OfficerProfile = () => {
 
       experience:"8 Years",
 
-      zone:"Zone A",
+      zone:currentOfficer.zone || "Zone A",
 
       shift:"Morning Shift",
 
@@ -309,8 +316,7 @@ const OfficerProfile = () => {
 
             <h3>
 
-              Welcome back,
-              Inspector Rithana !
+              {getOfficerWelcomeText(currentOfficer)}
 
             </h3>
 
@@ -344,7 +350,7 @@ const OfficerProfile = () => {
 
               <div className="profile-circle">
 
-                IR
+                {getOfficerInitials(currentOfficer)}
 
               </div>
 
@@ -489,7 +495,7 @@ const OfficerProfile = () => {
 
               <div className="big-profile-circle">
 
-                IR
+                {getOfficerInitials(currentOfficer)}
 
               </div>
 
@@ -503,7 +509,7 @@ const OfficerProfile = () => {
 
                 <p>
 
-                  {profile.rank}
+                  {profile.rank || getOfficerPosition(currentOfficer)}
                   ·
                   {profile.station}
 

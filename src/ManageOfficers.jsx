@@ -30,6 +30,82 @@ import {
 
 } from "react-icons/fa";
 
+const defaultOfficers = [
+
+  {
+    id:1,
+    initials:"RP",
+    name:"Ravi Prakash",
+    email:"ravi.prakash@reportit.com",
+    password:"ravi123",
+    badge:"RP-4521",
+    position:"Inspector",
+    zone:"Zone A",
+    active:"12 / 45",
+    status:"Active",
+  },
+
+  {
+    id:2,
+    initials:"AV",
+    name:"Ananya Verma",
+    email:"ananya.verma@reportit.com",
+    password:"ananya123",
+    badge:"AV-3218",
+    position:"Sub Inspector",
+    zone:"Zone B",
+    active:"8 / 32",
+    status:"Active",
+  },
+
+  {
+    id:3,
+    initials:"KD",
+    name:"Karan Desai",
+    email:"karan.desai@reportit.com",
+    password:"karan123",
+    badge:"KD-1567",
+    position:"Head Constable",
+    zone:"Zone C",
+    active:"5 / 28",
+    status:"Active",
+  },
+
+  {
+    id:4,
+    initials:"NK",
+    name:"Nisha Khan",
+    email:"nisha.khan@reportit.com",
+    password:"nisha123",
+    badge:"NK-7843",
+    position:"Assistant Commissioner",
+    zone:"Zone D",
+    active:"0 / 15",
+    status:"Inactive",
+  },
+
+];
+
+const loadOfficers = () => {
+  const storedOfficers =
+    JSON.parse(
+      localStorage.getItem("officers")
+    );
+
+  if(!storedOfficers || storedOfficers.length === 0){
+    return defaultOfficers;
+  }
+
+  return storedOfficers.map((officer,index) => ({
+    ...officer,
+    email: officer.email?.endsWith("@reportit.com")
+      ? officer.email
+      : defaultOfficers[index]?.email || `${officer.initials || "officer"}@reportit.com`,
+    password: officer.password || defaultOfficers[index]?.password || "officer123",
+    position: officer.position || defaultOfficers[index]?.position || "Officer",
+  }));
+};
+
 const ManageOfficers = () => {
 
   const navigate = useNavigate();
@@ -48,58 +124,7 @@ const ManageOfficers = () => {
 
   const [officers,setOfficers] =
   useState(
-
-    JSON.parse(
-      localStorage.getItem("officers")
-    ) ||
-
-    [
-
-      {
-        id:1,
-        initials:"IP",
-        name:"Inspector Patel",
-        email:"patel@civicsafe.gov",
-        badge:"IP-4521",
-        zone:"Zone A",
-        active:"12 / 45",
-        status:"Active",
-      },
-
-      {
-        id:2,
-        initials:"OV",
-        name:"Officer Verma",
-        email:"verma@civicsafe.gov",
-        badge:"OV-3218",
-        zone:"Zone B",
-        active:"8 / 32",
-        status:"Active",
-      },
-
-      {
-        id:3,
-        initials:"OD",
-        name:"Officer Desai",
-        email:"desai@civicsafe.gov",
-        badge:"OD-1567",
-        zone:"Zone C",
-        active:"5 / 28",
-        status:"Active",
-      },
-
-      {
-        id:4,
-        initials:"IK",
-        name:"Inspector Khan",
-        email:"khan@civicsafe.gov",
-        badge:"IK-7843",
-        zone:"Zone D",
-        active:"0 / 15",
-        status:"Inactive",
-      },
-
-    ]
+    loadOfficers()
 
   );
 

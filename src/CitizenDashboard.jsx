@@ -10,6 +10,10 @@ from "react-router-dom";
 import "./CitizenDashboard.css";
 
 import AIChat from "./AIChat";
+import {
+  getComplaints,
+  getComplaintStats,
+} from "./complaintsData";
 
 import {
 
@@ -44,58 +48,9 @@ const CitizenDashboard = () => {
       )
     ) || [];
 
-  /* ================= DUMMY COMPLAINTS ================= */
-
-  const complaints = [
-
-    {
-      id:"CMP-2024-001",
-      title:"Bike Theft at Market Area",
-      category:"Theft",
-      status:"In Progress",
-      date:"2024-03-15",
-    },
-
-    {
-      id:"CMP-2024-006",
-      title:"Broken Street Light",
-      category:"Street Light Issue",
-      status:"Resolved",
-      date:"2024-03-19",
-    },
-
-    {
-      id:"CMP-2024-009",
-      title:"Road Accident Near Signal",
-      category:"Road Accident",
-      status:"Pending",
-      date:"2024-03-21",
-    },
-
-  ];
-
-  /* ================= COUNTS ================= */
-
-  const totalComplaints =
-  complaints.length;
-
-  const pendingComplaints =
-  complaints.filter(
-    (item)=>
-      item.status === "Pending"
-  ).length;
-
-  const progressComplaints =
-  complaints.filter(
-    (item)=>
-      item.status === "In Progress"
-  ).length;
-
-  const resolvedComplaints =
-  complaints.filter(
-    (item)=>
-      item.status === "Resolved"
-  ).length;
+  const complaints = getComplaints();
+  const complaintStats = getComplaintStats(complaints);
+  const recentComplaints = complaints.slice(0,3);
 
   /* ================= LOGOUT ================= */
 
@@ -379,7 +334,7 @@ const CitizenDashboard = () => {
 
               <h2>
 
-                {totalComplaints}
+                {complaintStats.total}
 
               </h2>
 
@@ -397,7 +352,7 @@ const CitizenDashboard = () => {
 
               <h2>
 
-                {pendingComplaints}
+                {complaintStats.pending}
 
               </h2>
 
@@ -415,7 +370,7 @@ const CitizenDashboard = () => {
 
               <h2>
 
-                {progressComplaints}
+                {complaintStats.inProgress}
 
               </h2>
 
@@ -433,7 +388,7 @@ const CitizenDashboard = () => {
 
               <h2>
 
-                {resolvedComplaints}
+                {complaintStats.resolved}
 
               </h2>
 
@@ -472,7 +427,7 @@ const CitizenDashboard = () => {
 
                 {
 
-                  complaints.map(
+                  recentComplaints.map(
                     (item,index)=>(
 
                       <div

@@ -28,6 +28,15 @@ import { useNavigate } from "react-router-dom";
 import "./OfficerStatistics.css";
 
 import AIChat from "./AIChat";
+import {
+  getCurrentOfficer,
+  getOfficerInitials,
+  getOfficerWelcomeText,
+} from "./officerSession";
+import {
+  getComplaints,
+  getComplaintStats,
+} from "./complaintsData";
 
 import html2canvas from "html2canvas";
 
@@ -36,6 +45,7 @@ import jsPDF from "jspdf";
 const OfficerStatistics = () => {
 
   const navigate = useNavigate();
+  const officer = getCurrentOfficer();
 
   const [showNotifications,
   setShowNotifications] =
@@ -43,50 +53,8 @@ const OfficerStatistics = () => {
 
   /* ================= GET CASES ================= */
 
-  const officerCases =
-
-  JSON.parse(
-    localStorage.getItem(
-      "officerCases"
-    )
-  ) || [];
-
-  /* ================= DYNAMIC STATS ================= */
-
-  const totalCases =
-  officerCases.length;
-
-  const resolvedCases =
-  officerCases.filter(
-    (item)=>
-      item.status === "Resolved"
-  ).length;
-
-  const pendingCases =
-  officerCases.filter(
-    (item)=>
-      item.status === "Pending"
-  ).length;
-
-  const inProgressCases =
-  officerCases.filter(
-    (item)=>
-      item.status === "In Progress"
-  ).length;
-
-  const resolutionRate =
-
-  totalCases > 0
-
-  ?
-
-  Math.round(
-    (resolvedCases / totalCases) * 100
-  )
-
-  :
-
-  0;
+  const officerCases = getComplaints();
+  const caseStats = getComplaintStats(officerCases);
 
   /* ================= WEEKLY DATA ================= */
 
@@ -214,12 +182,7 @@ const OfficerStatistics = () => {
 
             <span>
 
-              Report
-              <span className="statistics-highlight">
-
-                It
-
-              </span>
+              Report<span className="statistics-highlight">It</span>
 
             </span>
 
@@ -319,7 +282,7 @@ const OfficerStatistics = () => {
 
             <h3>
 
-              Officer Statistics Dashboard
+              {getOfficerWelcomeText(officer)}
 
             </h3>
 
@@ -488,7 +451,7 @@ const OfficerStatistics = () => {
               }
             >
 
-              IR
+              {getOfficerInitials(officer)}
 
             </div>
 
@@ -516,7 +479,7 @@ const OfficerStatistics = () => {
 
               <h2>
 
-                {totalCases}
+                {caseStats.total}
 
               </h2>
 
@@ -528,7 +491,7 @@ const OfficerStatistics = () => {
 
               <h2>
 
-                {resolvedCases}
+                {caseStats.resolved}
 
               </h2>
 
@@ -540,7 +503,7 @@ const OfficerStatistics = () => {
 
               <h2>
 
-                {pendingCases}
+                {caseStats.pending}
 
               </h2>
 
@@ -552,7 +515,7 @@ const OfficerStatistics = () => {
 
               <h2>
 
-                {resolutionRate}%
+                {caseStats.resolutionRate}%
 
               </h2>
 

@@ -10,6 +10,7 @@ from "react-router-dom";
 import "./MyComplaints.css";
 
 import AIChat from "./AIChat";
+import { getComplaints } from "./complaintsData";
 
 import {
 
@@ -88,56 +89,7 @@ const MyComplaints = () => {
 
   ];
 
-  /* ================= COMPLAINTS ================= */
-
-  const complaints = [
-
-    {
-      id:"CMP-2024-001",
-      title:"Bike Theft at Market Area",
-      category:"Theft",
-      priority:"High",
-      status:"Pending",
-      date:"2024-03-15",
-    },
-
-    {
-      id:"CMP-2024-006",
-      title:"Broken Street Light - Park Road",
-      category:"Street Light Issue",
-      priority:"Critical",
-      status:"In Progress",
-      date:"2024-03-19",
-    },
-
-    {
-      id:"CMP-2024-009",
-      title:"Road Accident Near Signal",
-      category:"Road Accident",
-      priority:"High",
-      status:"Resolved",
-      date:"2024-03-21",
-    },
-
-    {
-      id:"CMP-2024-012",
-      title:"Mobile Theft",
-      category:"Theft",
-      priority:"High",
-      status:"Rejected",
-      date:"2024-03-25",
-    },
-
-    {
-      id:"CMP-2024-015",
-      title:"Chain Snatching",
-      category:"Robbery",
-      priority:"Medium",
-      status:"Pending",
-      date:"2024-03-27",
-    },
-
-  ];
+  const complaints = getComplaints();
 
   /* ================= FILTER ================= */
 

@@ -5,6 +5,15 @@ import { Link, useNavigate } from "react-router-dom";
 import "./OfficerDashboard.css";
 
 import AIChat from "./AIChat";
+import {
+  getCurrentOfficer,
+  getOfficerInitials,
+  getOfficerWelcomeText,
+} from "./officerSession";
+import {
+  getComplaints,
+  getComplaintStats,
+} from "./complaintsData";
 
 import {
 
@@ -24,62 +33,15 @@ import {
 const OfficerDashboard = () => {
 
   const navigate = useNavigate();
+  const officer = getCurrentOfficer();
 
   const [showNotifications,
   setShowNotifications] =
   useState(false);
 
-  /* ================= DUMMY DATA ================= */
-
-  const cases = [
-
-    {
-      status:"In Progress",
-    },
-
-    {
-      status:"Resolved",
-    },
-
-    {
-      status:"Assigned",
-    },
-
-    {
-      status:"Assigned",
-    },
-
-    {
-      status:"Assigned",
-    },
-
-  ];
-
-  /* ================= COUNTS ================= */
-
-  const assignedCases =
-  cases.filter(
-    (item)=>
-      item.status === "Assigned"
-  ).length;
-
-  const pendingCases =
-  cases.filter(
-    (item)=>
-      item.status === "Pending"
-  ).length;
-
-  const progressCases =
-  cases.filter(
-    (item)=>
-      item.status === "In Progress"
-  ).length;
-
-  const resolvedCases =
-  cases.filter(
-    (item)=>
-      item.status === "Resolved"
-  ).length;
+  const cases = getComplaints();
+  const caseStats = getComplaintStats(cases);
+  const recentCases = cases.slice(0,3);
 
   /* ================= LOGOUT ================= */
 
@@ -221,8 +183,7 @@ const OfficerDashboard = () => {
 
             <h3>
 
-              Welcome back,
-              Inspector Rithana !
+              {getOfficerWelcomeText(officer)}
 
             </h3>
 
@@ -380,7 +341,7 @@ const OfficerDashboard = () => {
 
               <div className="profile-circle">
 
-                IR
+                {getOfficerInitials(officer)}
 
               </div>
 
@@ -422,7 +383,7 @@ const OfficerDashboard = () => {
 
               <h2>
 
-                {assignedCases}
+                {caseStats.total}
 
               </h2>
 
@@ -446,7 +407,7 @@ const OfficerDashboard = () => {
 
               <h2>
 
-                {pendingCases}
+                {caseStats.pending}
 
               </h2>
 
@@ -470,7 +431,7 @@ const OfficerDashboard = () => {
 
               <h2>
 
-                {progressCases}
+                {caseStats.inProgress}
 
               </h2>
 
@@ -494,7 +455,7 @@ const OfficerDashboard = () => {
 
               <h2>
 
-                {resolvedCases}
+                {caseStats.resolved}
 
               </h2>
 

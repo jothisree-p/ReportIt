@@ -12,6 +12,7 @@ import {
 } from "react-icons/fa";
 
 import { useNavigate } from "react-router-dom";
+import { setCurrentOfficerByEmail } from "./officerSession";
 
 const OfficerLogin = () => {
 
@@ -62,14 +63,23 @@ const OfficerLogin = () => {
 
     }
 
-    if (
-      !formData.email.endsWith(
-        "@reportit.com"
-      )
-    ) {
+    const loggedInOfficer =
+      setCurrentOfficerByEmail(formData.email);
+
+    if (!loggedInOfficer) {
 
       alert(
-        "Officer email must end with @reportit.com"
+        "Officer not found. Please contact admin to add this officer account."
+      );
+
+      return;
+
+    }
+
+    if(loggedInOfficer.password !== formData.password){
+
+      alert(
+        "Incorrect officer password"
       );
 
       return;
