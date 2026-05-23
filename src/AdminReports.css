@@ -1,0 +1,495 @@
+body{
+  background:#05071d;
+  overflow:hidden;
+}
+
+/* ================= MAIN ================= */
+
+.reports-container{
+  width:100vw;
+  height:100vh;
+
+  display:flex;
+
+  background:#05071d;
+  color:white;
+}
+
+/* ================= SIDEBAR ================= */
+/* ================= LOGO ================= */
+
+.sidebar-logo{
+
+  display:flex;
+
+  align-items:center;
+
+  gap:12px;
+
+  padding:0 28px;
+
+  font-size:32px;
+
+  font-weight:700;
+
+  margin-bottom:40px;
+
+  color:white;
+}
+
+.logo-icon{
+
+  color:#00bfff;
+
+  font-size:38px;
+}
+
+.highlight{
+
+  color:#00bfff;
+}
+.panel-text{
+  padding:0 28px;
+
+  color:#7d85b5;
+
+  margin-bottom:22px;
+
+  font-size:14px;
+  letter-spacing:1px;
+}
+
+.sidebar-menu{
+  list-style:none;
+}
+
+.sidebar-menu li{
+  height:58px;
+
+  display:flex;
+  align-items:center;
+  gap:14px;
+
+  padding:0 28px;
+
+  cursor:pointer;
+
+  color:#c7c7d8;
+
+  transition:0.3s;
+}
+
+.sidebar-menu li:hover{
+  background:#0d153a;
+}
+
+.active-menu{
+  background:#111c4f;
+
+  border-left:4px solid #00bfff;
+
+  color:#00bfff !important;
+}
+
+/* ================= LOGOUT ================= */
+
+.logout{
+  height:60px;
+
+  display:flex;
+  align-items:center;
+  gap:12px;
+
+  padding:0 28px;
+
+  color:#ff4d4d;
+
+  cursor:pointer;
+}
+
+.logout:hover{
+  background:#11111130;
+}
+
+/* ================= MAIN CONTENT ================= */
+
+.main-content{
+  flex:1;
+
+  display:flex;
+  flex-direction:column;
+}
+
+/* ================= TOPBAR ================= */
+
+.topbar{
+  height:90px;
+
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+
+  padding:0 35px;
+
+  background:#070b24;
+
+  border-bottom:
+  1px solid rgba(255,255,255,0.05);
+}
+
+.topbar-left{
+  display:flex;
+  align-items:center;
+  gap:15px;
+}
+
+.topbar-left h3{
+  font-size:26px;
+  font-weight:500;
+}
+
+/* ================= BACK BUTTON ================= */
+
+/* Standardized via index.css:
+.back-btn{
+  width:50px;
+  height:50px;
+
+  border:none;
+  border-radius:50%;
+
+  background:#10215f;
+
+  color:#00bfff;
+
+  font-size:20px;
+
+  display:flex;
+  justify-content:center;
+  align-items:center;
+
+  cursor:pointer;
+
+  transition:0.3s;
+}
+*/
+
+/* Standardized via index.css:
+.back-btn:hover{
+  background:#00bfff;
+  color:#05071d;
+
+  transform:scale(1.05);
+}
+*/
+
+/* ================= PROFILE ================= */
+
+.profile-circle{
+  width:50px;
+  height:50px;
+
+  border-radius:50%;
+
+  background:#10215f;
+
+  display:flex;
+  justify-content:center;
+  align-items:center;
+
+  color:#00bfff;
+
+  font-weight:700;
+  font-size:18px;
+}
+
+/* ================= CONTENT ================= */
+
+.reports-content{
+  flex:1;
+
+  padding:35px;
+
+  overflow-y:auto;
+}
+
+.reports-header{
+  margin-bottom:25px;
+}
+
+.reports-header h1{
+  font-size:40px;
+
+  margin-bottom:10px;
+}
+
+.reports-header p{
+  color:#9ca3d2;
+
+  font-size:16px;
+}
+
+/* ================= TABLE ================= */
+
+.reports-table{
+  width:100%;
+
+  background:#0c1435;
+
+  border-radius:22px;
+
+  overflow:hidden;
+
+  border:
+  1px solid rgba(255,255,255,0.05);
+}
+
+/* ================= HEADER ================= */
+.reports-table-header{
+
+  display:grid;
+
+  grid-template-columns:
+  1.5fr
+  1.5fr
+  1.4fr
+  1fr
+  1fr
+  1.5fr
+  1.7fr;
+
+  align-items:center;
+
+  padding:24px 28px;
+
+  background:#111c4f;
+
+  color:#00bfff;
+
+  font-size:16px;
+  font-weight:600;
+
+  text-align:center;
+}
+
+/* ================= ROW ================= */
+
+.reports-table-row{
+
+  display:grid;
+
+  grid-template-columns:
+  1.5fr
+  1.5fr
+  1.4fr
+  1fr
+  1fr
+  1.5fr
+  1.7fr;
+
+  align-items:center;
+
+  padding:24px 28px;
+
+  border-bottom:
+  1px solid rgba(255,255,255,0.05);
+
+  transition:0.3s;
+}
+
+.reports-table-row:last-child{
+  border-bottom:none;
+}
+
+.reports-table-row:hover{
+  background:#101b47;
+}
+/* ================= CELLS ================= */
+
+.table-cell{
+  display:flex;
+
+  justify-content:center;
+
+  align-items:center;
+
+  text-align:center;
+}
+
+/* ================= TEXT ================= */
+
+.complaint-id{
+  color:white;
+
+  font-size:18px;
+  font-weight:700;
+}
+
+.citizen-name{
+  color:white;
+
+  font-size:18px;
+  font-weight:600;
+}
+
+.category-text,
+.zone-text,
+.assigned-name{
+  color:white;
+
+  font-size:16px;
+}
+
+/* ================= STATUS ================= */
+
+.pending-badge,
+.assigned-badge{
+  width:120px;
+  height:42px;
+
+  border-radius:12px;
+
+  display:flex;
+  justify-content:center;
+  align-items:center;
+
+  margin:auto;
+
+  font-size:14px;
+  font-weight:600;
+}
+
+.pending-badge{
+  background:#5b4700;
+  color:#ffcc00;
+}
+
+.assigned-badge{
+  background:#004c7a;
+  color:#00bfff;
+}
+
+/* ================= SELECT ================= */
+
+.assign-select{
+  width:190px;
+  height:50px;
+
+  border:none;
+  outline:none;
+
+  border-radius:14px;
+
+  background:#1a2a6b;
+
+  color:white;
+
+  padding:0 15px;
+
+  font-size:15px;
+  font-weight:500;
+
+  cursor:pointer;
+}
+
+.assign-select:hover{
+  background:#22368a;
+}
+
+.assign-select option{
+  background:#1a2a6b;
+  color:white;
+}
+
+/* ================= RESPONSIVE ================= */
+
+@media(max-width:1200px){
+
+  .reports-table{
+    overflow-x:auto;
+  }
+
+  .table-header,
+  .table-row{
+    min-width:1200px;
+  }
+
+}
+
+@media(max-width:750px){
+
+  .sidebar{
+    display:none;
+  }
+
+  .reports-content{
+    padding:20px;
+  }
+
+  .reports-header h1{
+    font-size:30px;
+  }
+
+}
+/* ================= PAGINATION ================= */
+
+.pagination{
+
+  width:100%;
+
+  display:flex;
+
+  justify-content:center;
+
+  align-items:center;
+
+  gap:14px;
+
+  margin-top:35px;
+}
+
+.pagination button{
+
+  min-width:44px;
+
+  height:44px;
+
+  padding:0 16px;
+
+  border:none;
+
+  border-radius:12px;
+
+  background:#111c4f;
+
+  color:white;
+
+  font-size:15px;
+
+  font-weight:600;
+
+  cursor:pointer;
+
+  transition:0.3s;
+}
+
+.pagination button:hover{
+
+  background:#00bfff;
+
+  color:#05071d;
+}
+
+.pagination button:disabled{
+
+  opacity:0.4;
+
+  cursor:not-allowed;
+}
+
+.active-page{
+
+  background:#00bfff !important;
+
+  color:#05071d !important;
+}

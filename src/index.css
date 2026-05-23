@@ -1,0 +1,196 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
+
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
+
+html,body,#root{
+  width: 100%;
+  min-height: 100%;
+  overflow-x: hidden;
+  font-family: 'Poppins', sans-serif;
+  background: #05071d;
+}
+
+html{
+  scroll-behavior: smooth;
+}
+
+/* ================= STANDARD GLOBAL UTILITIES ================= */
+
+/* Global Typography & Scrollbars */
+body {
+  color: white;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #05071d;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #111c4f;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #00bfff;
+}
+
+/* Global Back Button (Circular, Animated) */
+.back-btn {
+  width: 48px;
+  height: 48px;
+  border: none;
+  border-radius: 50%;
+  background: #10215f;
+  color: #00bfff;
+  font-size: 18px;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.back-btn:hover {
+  background: #00bfff;
+  color: #05071d;
+  transform: scale(1.08) translateY(-2px);
+  box-shadow: 0 0 15px rgba(0, 191, 255, 0.4);
+}
+
+.back-btn:active {
+  transform: scale(0.95) translateY(0);
+}
+
+/* Global Logo & Navigation Styles */
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+}
+
+.logo-icon {
+  color: #00bfff;
+  font-size: 38px;
+  transition: all 0.3s ease;
+}
+
+.logo:hover .logo-icon {
+  transform: rotate(-10deg) scale(1.1);
+  filter: drop-shadow(0 0 8px rgba(0, 191, 255, 0.6));
+}
+
+.logo-text {
+  color: white;
+  font-size: 32px;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+}
+
+.logo-highlight {
+  color: #00bfff;
+}
+
+/* Sidebar Logo Context */
+.sidebar-logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 0 28px;
+  font-size: 32px;
+  font-weight: 700;
+  margin-bottom: 40px;
+  color: white;
+}
+
+.sidebar-logo .logo-icon {
+  color: #00bfff;
+  font-size: 38px;
+}
+
+.sidebar-logo span {
+  color: white;
+  font-weight: 700;
+}
+
+.sidebar-logo .highlight {
+  color: #00bfff;
+}
+
+/* Global Premium Notification Bell Styling */
+.notification-btn {
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  background: #10215f;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.notification-btn:hover {
+  background: #17318b;
+  transform: scale(1.06);
+  box-shadow: 0 0 10px rgba(0, 191, 255, 0.15);
+}
+
+.notification-bell {
+  color: #00bfff;
+  font-size: 20px;
+  transition: all 0.3s ease;
+}
+
+.notification-btn:hover .notification-bell {
+  color: white;
+  animation: wobble 0.5s ease-in-out;
+}
+
+.notification-dot {
+  position: absolute;
+  top: 10px;
+  right: 11px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #ff3b3b;
+  border: 1.5px solid #070b24;
+  box-shadow: 0 0 8px rgba(255, 59, 59, 0.6);
+}
+
+@keyframes wobble {
+  0% { transform: rotate(0); }
+  15% { transform: rotate(-15deg); }
+  30% { transform: rotate(10deg); }
+  45% { transform: rotate(-10deg); }
+  60% { transform: rotate(5deg); }
+  75% { transform: rotate(-5deg); }
+  100% { transform: rotate(0); }
+}
+
+.role-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.role-image {
+  width: 110px;
+  height: 110px;
+  margin-bottom: 20px;
+  object-fit: contain;
+}
