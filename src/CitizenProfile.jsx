@@ -5,6 +5,12 @@ import { useNavigate } from "react-router-dom";
 import "./CitizenProfile.css";
 
 import AIChat from "./AIChat";
+import {
+  getCurrentCitizen,
+  getCitizenInitials,
+  getCitizenName,
+  getCitizenWelcomeText,
+} from "./citizenSession";
 
 import {
 
@@ -24,6 +30,7 @@ import {
 const CitizenProfile = () => {
 
   const navigate = useNavigate();
+  const citizen = getCurrentCitizen();
   const [showNotifications,
 setShowNotifications] =
 useState(false);
@@ -61,13 +68,13 @@ useState(false);
 
     /* FROM SIGNUP */
 
-    name:"Jothisree",
+    name:getCitizenName(citizen),
 
-    email:"jothisreerc14@email.com",
+    email:citizen.email || "",
 
     /* USER FILLS LATER */
 
-    phone:"",
+    phone:citizen.phone || "",
 
     age:"",
 
@@ -233,7 +240,7 @@ useState(false);
             </button>
 
             <h3>
-              Welcome back, Jothisree !
+              {getCitizenWelcomeText(citizen)}
             </h3>
 
           </div>
@@ -262,7 +269,7 @@ useState(false);
 >
 
   <div className="profile-circle">
-    JS
+    {getCitizenInitials(citizen)}
   </div>
 
 </div>
@@ -322,7 +329,7 @@ useState(false);
             <div className="profile-header">
 
               <div className="big-profile-circle">
-                JS
+                {getCitizenInitials(citizen)}
               </div>
 
               <div>

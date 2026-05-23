@@ -3,6 +3,11 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import "./TrackStatus.css";
+import {
+  getCurrentCitizen,
+  getCitizenInitials,
+  getCitizenWelcomeText,
+} from "./citizenSession";
 
 import AIChat from "./AIChat";
 
@@ -22,6 +27,7 @@ import {
 const TrackStatus = () => {
 
   const navigate = useNavigate();
+  const citizen = getCurrentCitizen();
 
   /* ================= NOTIFICATION ================= */
 
@@ -367,8 +373,7 @@ const TrackStatus = () => {
 
             <h3>
 
-              Welcome back,
-              Jothisree !
+              {getCitizenWelcomeText(citizen)}
 
             </h3>
 
@@ -404,7 +409,7 @@ const TrackStatus = () => {
 
               <div className="profile-circle">
 
-                JS
+                {getCitizenInitials(citizen)}
 
               </div>
 

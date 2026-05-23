@@ -34,7 +34,7 @@ import {
   getOfficerWelcomeText,
 } from "./officerSession";
 import {
-  getComplaints,
+  getComplaintsForOfficer,
   getComplaintStats,
 } from "./complaintsData";
 
@@ -53,7 +53,7 @@ const OfficerStatistics = () => {
 
   /* ================= GET CASES ================= */
 
-  const officerCases = getComplaints();
+  const officerCases = getComplaintsForOfficer(officer);
   const caseStats = getComplaintStats(officerCases);
 
   /* ================= WEEKLY DATA ================= */

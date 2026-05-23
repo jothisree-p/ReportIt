@@ -15,7 +15,7 @@ import {
   getOfficerInitials,
   getOfficerWelcomeText,
 } from "./officerSession";
-import { getComplaints } from "./complaintsData";
+import { getComplaintsForOfficer } from "./complaintsData";
 
 import {
 
@@ -57,7 +57,7 @@ const AssignedCases = () => {
 
   /* ================= DATA ================= */
 
-  const cases = getComplaints();
+  const cases = getComplaintsForOfficer(officer);
 
   /* ================= FILTER ================= */
 
@@ -67,7 +67,7 @@ const AssignedCases = () => {
 
     const matchesSearch =
 
-      item.title
+      (item.title || "")
       .toLowerCase()
       .includes(
         searchTerm.toLowerCase()
@@ -75,7 +75,7 @@ const AssignedCases = () => {
 
       ||
 
-      item.id
+      (item.id || "")
       .toLowerCase()
       .includes(
         searchTerm.toLowerCase()
@@ -83,7 +83,7 @@ const AssignedCases = () => {
 
       ||
 
-      item.citizen
+      (item.citizen || "")
       .toLowerCase()
       .includes(
         searchTerm.toLowerCase()
@@ -482,6 +482,7 @@ const AssignedCases = () => {
 
                 [
                   "All",
+                  "Assigned",
                   "Pending",
                   "In Progress",
                   "Resolved",

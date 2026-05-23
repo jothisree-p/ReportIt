@@ -5,6 +5,10 @@ import { useNavigate } from "react-router-dom";
 import "./ReportCrime.css";
 
 import AIChat from "./AIChat";
+import {
+  getCurrentCitizen,
+  getCitizenInitials,
+} from "./citizenSession";
 
 import {
 
@@ -27,6 +31,7 @@ import {
 const ReportCrime = () => {
 
   const navigate = useNavigate();
+  const citizen = getCurrentCitizen();
 
   /* ================= NOTIFICATION ================= */
 
@@ -262,7 +267,7 @@ const ReportCrime = () => {
 
               <div className="report-profile-circle">
 
-                JS
+                {getCitizenInitials(citizen)}
 
               </div>
 

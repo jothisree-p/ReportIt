@@ -12,6 +12,7 @@ import {
   FaEyeSlash,
   FaArrowLeft,
 } from "react-icons/fa";
+import { setCurrentCitizen } from "./citizenSession";
 
 const CitizenLogin = () => {
 
@@ -122,6 +123,8 @@ const CitizenLogin = () => {
     alert(
       "Login Successful!"
     );
+
+    setCurrentCitizen(storedData);
 
     navigate(
       "/citizen-dashboard"

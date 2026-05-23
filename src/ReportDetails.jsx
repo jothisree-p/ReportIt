@@ -1,11 +1,18 @@
 import React, { useState } from "react";
 
-import { useNavigate } from "react-router-dom";
+import {
+  useLocation,
+  useNavigate,
+} from "react-router-dom";
 
 import "./ReportDetails.css";
 
 import AIChat from "./AIChat";
 import { saveComplaint } from "./complaintsData";
+import {
+  getCurrentCitizen,
+  getCitizenName,
+} from "./citizenSession";
 
 import {
 
@@ -24,6 +31,9 @@ import {
 const ReportDetails = () => {
 
   const navigate = useNavigate();
+  const location = useLocation();
+  const citizen = getCurrentCitizen();
+  const crimeType = location.state?.crimeType || "General";
 
   /* ================= NOTIFICATION ================= */
 
@@ -166,8 +176,10 @@ const ReportDetails = () => {
       location:formData.location,
       date:formData.date,
       incidentTime:formData.incidentTime,
-      category:"General",
+      category:crimeType,
       priority:"Medium",
+      citizen:getCitizenName(citizen),
+      citizenEmail:citizen.email || "",
     });
 
     alert(

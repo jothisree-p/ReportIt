@@ -39,12 +39,18 @@ import html2canvas from "html2canvas";
 import "./AdminStatistics.css";
 
 import AIChat from "./AIChat";
+import {
+  getComplaints,
+  getComplaintStats,
+} from "./complaintsData";
 
 const AdminStatistics = () => {
 
   const navigate = useNavigate();
 
   const pdfRef = useRef();
+  const complaints = getComplaints();
+  const complaintStats = getComplaintStats(complaints);
 
   /* ================= WEEKLY DATA ================= */
 
@@ -372,7 +378,7 @@ const AdminStatistics = () => {
 
               <p>Total Complaints</p>
 
-              <h2>156</h2>
+              <h2>{complaintStats.total}</h2>
 
             </div>
 
@@ -380,7 +386,7 @@ const AdminStatistics = () => {
 
               <p>Resolved Cases</p>
 
-              <h2>102</h2>
+              <h2>{complaintStats.resolved}</h2>
 
             </div>
 
@@ -388,7 +394,7 @@ const AdminStatistics = () => {
 
               <p>Pending Cases</p>
 
-              <h2>54</h2>
+              <h2>{complaintStats.pending}</h2>
 
             </div>
 
@@ -396,7 +402,7 @@ const AdminStatistics = () => {
 
               <p>Resolution Rate</p>
 
-              <h2>84%</h2>
+              <h2>{complaintStats.resolutionRate}%</h2>
 
             </div>
 

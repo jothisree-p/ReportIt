@@ -13,6 +13,10 @@ import {
   FaFileAlt,
   FaChartPie,
 } from "react-icons/fa";
+import {
+  getComplaints,
+  updateComplaint,
+} from "./complaintsData";
 
 const AdminReports = () => {
 
@@ -22,18 +26,11 @@ const AdminReports = () => {
 
   const officers = JSON.parse(localStorage.getItem("officers")) || [];
 
-  const [complaints, setComplaints] = useState(
-    JSON.parse(localStorage.getItem("complaints")) || [
-      { id:"CMP-2024-001", citizen:"Rahul Sharma",  category:"Theft",        zone:"Zone A", date:"12 May 2026", status:"Pending",  assignedOfficer:"" },
-      { id:"CMP-2024-002", citizen:"Priya Singh",   category:"Accident",     zone:"Zone B", date:"14 May 2026", status:"Pending",  assignedOfficer:"" },
-      { id:"CMP-2024-003", citizen:"Sneha Reddy",   category:"Street Crime", zone:"Zone C", date:"18 May 2026", status:"Assigned", assignedOfficer:"Inspector Patel" },
-      { id:"CMP-2024-004", citizen:"Karan Mehta",   category:"Robbery",      zone:"Zone D", date:"20 May 2026", status:"Pending",  assignedOfficer:"" },
-      { id:"CMP-2024-005", citizen:"Aditi Sharma",  category:"Cyber Crime",  zone:"Zone A", date:"22 May 2026", status:"Assigned", assignedOfficer:"Officer Verma" },
-    ]
-  );
+  const [complaints, setComplaints] = useState(getComplaints());
 
   useEffect(() => {
     localStorage.setItem("complaints", JSON.stringify(complaints));
+    localStorage.setItem("officerCases", JSON.stringify(complaints));
   }, [complaints]);
 
   const indexOfLast  = currentPage * reportsPerPage;
@@ -42,11 +39,16 @@ const AdminReports = () => {
   const totalPages = Math.ceil(complaints.length / reportsPerPage);
 
   const handleAssign = (id, name) => {
-    setComplaints(complaints.map(item =>
-      item.id === id
-        ? { ...item, assignedOfficer: name, status: name ? "Assigned" : "Pending" }
-        : item
-    ));
+    const selectedOfficer =
+      officers.find((officer) => officer.name === name);
+
+    const updatedComplaints = updateComplaint(id, {
+      assignedOfficer: selectedOfficer?.name || "",
+      assignedOfficerEmail: selectedOfficer?.email || "",
+      status: selectedOfficer ? "Assigned" : "Pending",
+    });
+
+    setComplaints(updatedComplaints);
     alert("Officer Assigned Successfully!");
   };
 
@@ -132,7 +134,7 @@ const AdminReports = () => {
                 </div>
 
                 <div className="table-cell">
-                  <p className="zone-text">{item.zone}</p>
+                  <p className="zone-text">{item.zone || "Zone A"}</p>
                 </div>
 
                 <div className="table-cell">

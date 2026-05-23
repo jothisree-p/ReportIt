@@ -11,7 +11,7 @@ import {
   getOfficerWelcomeText,
 } from "./officerSession";
 import {
-  getComplaints,
+  getComplaintsForOfficer,
   getComplaintStats,
 } from "./complaintsData";
 
@@ -39,7 +39,7 @@ const OfficerDashboard = () => {
   setShowNotifications] =
   useState(false);
 
-  const cases = getComplaints();
+  const cases = getComplaintsForOfficer(officer);
   const caseStats = getComplaintStats(cases);
   const recentCases = cases.slice(0,3);
 

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 
 import { useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
 import "./OfficerComplaintDetails.css";
 
@@ -11,6 +12,7 @@ import {
   getOfficerInitials,
   getOfficerWelcomeText,
 } from "./officerSession";
+import { updateComplaint } from "./complaintsData";
 
 import {
 
@@ -29,7 +31,16 @@ import {
 const OfficerComplaintDetails = () => {
 
   const navigate = useNavigate();
+  const location = useLocation();
   const officer = getCurrentOfficer();
+  const selectedComplaint = location.state || {
+    id:"CMP-2024-001",
+    title:"Bike Theft at Market Area",
+    category:"Theft",
+    citizen:"Rahul Sharma",
+    priority:"Pending",
+    status:"In Progress",
+  };
 
   const [showNotifications,
   setShowNotifications] =
@@ -41,23 +52,25 @@ const OfficerComplaintDetails = () => {
 
   const [status,
   setStatus] =
-  useState("In Progress");
+  useState(selectedComplaint.status || "In Progress");
 
   /* ================= PRIORITY ================= */
 
   const [priority,
   setPriority] =
-  useState("Pending");
+  useState(selectedComplaint.priority || "Pending");
 
   const [notes,
   setNotes] =
-  useState([
+  useState(
+    selectedComplaint.investigationNotes || [
 
-    "CCTV footage collected from nearby shops",
+      "CCTV footage collected from nearby shops",
 
-    "Witness statement recorded",
+      "Witness statement recorded",
 
-  ]);
+    ]
+  );
 
   /* ================= ADD NOTE ================= */
 
@@ -65,12 +78,19 @@ const OfficerComplaintDetails = () => {
 
     if(note.trim() === "") return;
 
-    setNotes([
+    const updatedNotes = [
 
       ...notes,
       note,
 
-    ]);
+    ];
+
+    setNotes(updatedNotes);
+
+    updateComplaint(selectedComplaint.id, {
+      investigationNotes:updatedNotes,
+      lastUpdate:`Officer added a new note: ${note}`,
+    });
 
     setNote("");
 
@@ -80,46 +100,19 @@ const OfficerComplaintDetails = () => {
 
   const saveCaseUpdates = () => {
 
-    const storedCases =
-
-      JSON.parse(
-        localStorage.getItem(
-          "officerCases"
-        )
-      ) || [];
-
-    const updatedCases =
-    storedCases.map((item) => {
-
-      if(item.id === "CMP-2024-001"){
-
-        return {
-
-          ...item,
-
-          status:status,
-
-          priority:priority,
-
-        };
-
-      }
-
-      return item;
-
+    updateComplaint(selectedComplaint.id, {
+      status:status,
+      priority:priority,
+      investigationNotes:notes,
+      lastUpdate:`Status changed to ${status} with ${priority} priority`,
+      updatedAt:new Date().toLocaleString(),
     });
 
-    localStorage.setItem(
-
-      "officerCases",
-
-      JSON.stringify(updatedCases)
-
+    addCitizenNotification(
+      `Your complaint ${selectedComplaint.id} was updated to ${status} with ${priority} priority.`
     );
 
-    alert(
-      "Case updated successfully!"
-    );
+    alert("Case updated successfully and citizen notified!");
 
   };
 
@@ -129,47 +122,38 @@ const OfficerComplaintDetails = () => {
 
     const notificationMessage =
 
-    `Your complaint CMP-2024-001
+    `Your complaint ${selectedComplaint.id}
      has been updated to
      "${status}" status
      with "${priority}" priority.`;
 
-    const oldNotifications =
-
-      JSON.parse(
-        localStorage.getItem(
-          "citizenNotifications"
-        )
-      ) || [];
-
-    const newNotification = {
-
-      id:Date.now(),
-
-      message:notificationMessage,
-
-      time:new Date().toLocaleString(),
-
-    };
-
-    oldNotifications.unshift(
-      newNotification
-    );
-
-    localStorage.setItem(
-
-      "citizenNotifications",
-
-      JSON.stringify(
-        oldNotifications
-      )
-
-    );
+    addCitizenNotification(notificationMessage);
 
     alert(
       "Notification sent successfully!"
     );
 
+  };
+
+  const addCitizenNotification = (message) => {
+    const oldNotifications =
+      JSON.parse(
+        localStorage.getItem("citizenNotifications")
+      ) || [];
+
+    const newNotification = {
+      id:Date.now(),
+      complaintId:selectedComplaint.id,
+      message,
+      time:new Date().toLocaleString(),
+    };
+
+    oldNotifications.unshift(newNotification);
+
+    localStorage.setItem(
+      "citizenNotifications",
+      JSON.stringify(oldNotifications)
+    );
   };
 
   /* ================= LOGOUT ================= */
@@ -374,7 +358,7 @@ const OfficerComplaintDetails = () => {
 
           <h1>
 
-            Case: CMP-2024-001
+            Case: {selectedComplaint.id}
 
           </h1>
 
@@ -396,7 +380,7 @@ const OfficerComplaintDetails = () => {
 
                 <p>
 
-                  Bike Theft at Market Area
+                  {selectedComplaint.title}
 
                 </p>
 
@@ -408,7 +392,7 @@ const OfficerComplaintDetails = () => {
 
                 <p>
 
-                  Theft
+                  {selectedComplaint.category}
 
                 </p>
 
@@ -449,7 +433,7 @@ const OfficerComplaintDetails = () => {
 
                 <p>
 
-                  Rahul Sharma
+                  {selectedComplaint.citizen}
 
                 </p>
 
@@ -459,7 +443,7 @@ const OfficerComplaintDetails = () => {
 
                 <FaMapMarkerAlt />
 
-                Central Market, Zone A
+              {selectedComplaint.location || "Central Market, Zone A"}
 
               </div>
 
@@ -469,9 +453,7 @@ const OfficerComplaintDetails = () => {
 
                 <p>
 
-                  My bike was stolen from the
-                  parking area near Central
-                  Market around 3 PM.
+                  {selectedComplaint.description || "This complaint is assigned for investigation. Update the case status and notify the citizen when needed."}
 
                 </p>
 

@@ -14,6 +14,11 @@ import {
   getComplaints,
   getComplaintStats,
 } from "./complaintsData";
+import {
+  getCurrentCitizen,
+  getCitizenInitials,
+  getCitizenWelcomeText,
+} from "./citizenSession";
 
 import {
 
@@ -32,6 +37,7 @@ import {
 const CitizenDashboard = () => {
 
   const navigate = useNavigate();
+  const citizen = getCurrentCitizen();
 
   const [
     showNotifications,
@@ -197,7 +203,7 @@ const CitizenDashboard = () => {
 
             <h3>
 
-              Welcome back, Jothisree !
+              {getCitizenWelcomeText(citizen)}
 
             </h3>
 
@@ -298,7 +304,7 @@ const CitizenDashboard = () => {
 
               <div className="profile-circle">
 
-                JS
+                {getCitizenInitials(citizen)}
 
               </div>
 

@@ -17,6 +17,7 @@ import {
   useNavigate,
   useLocation,
 } from "react-router-dom";
+import { getComplaints } from "./complaintsData";
 
 const CitizenComplaintDetails = () => {
 
@@ -24,8 +25,20 @@ const CitizenComplaintDetails = () => {
 
   const location = useLocation();
 
+  const storedComplaints = getComplaints();
+
   const complaint =
-    location.state;
+    storedComplaints.find(
+      (item) => item.id === location.state?.id
+    ) ||
+    location.state ||
+    storedComplaints[0] ||
+    {};
+
+  const notifications =
+    JSON.parse(
+      localStorage.getItem("citizenNotifications")
+    ) || [];
 
   const [showNotifications,
   setShowNotifications] =
@@ -218,17 +231,31 @@ const CitizenComplaintDetails = () => {
 
                   </h4>
 
-                  <div className="citizen-popup-item">
+                  {
 
-                    📌 Complaint status updated
+                    notifications.length > 0 ? (
 
-                  </div>
+                      notifications.map((item,index)=>(
 
-                  <div className="citizen-popup-item">
+                        <div className="citizen-popup-item" key={index}>
 
-                    🚔 Officer assigned
+                          {item.message || item}
 
-                  </div>
+                        </div>
+
+                      ))
+
+                    ) : (
+
+                      <div className="citizen-popup-item">
+
+                        No notifications yet
+
+                      </div>
+
+                    )
+
+                  }
 
                 </div>
 
@@ -332,8 +359,7 @@ const CitizenComplaintDetails = () => {
 
               <FaMapMarkerAlt />
 
-              Central Market,
-              Chennai
+              {complaint?.location || "Central Market, Chennai"}
 
             </div>
 
@@ -349,9 +375,7 @@ const CitizenComplaintDetails = () => {
 
               <p>
 
-                This complaint has been submitted
-                successfully. Authorities are reviewing
-                the issue and updates will appear here.
+                {complaint?.lastUpdate || complaint?.description || "This complaint has been submitted successfully. Authorities are reviewing the issue and updates will appear here."}
 
               </p>
 
@@ -389,6 +413,36 @@ const CitizenComplaintDetails = () => {
 
               </div>
 
+              {
+
+                complaint?.assignedOfficer && (
+
+                  <div className="timeline-box">
+
+                    <div className="timeline-dot active-dot"></div>
+
+                    <div>
+
+                      <h4>
+
+                        Officer Assigned
+
+                      </h4>
+
+                      <p>
+
+                        {complaint.assignedOfficer}
+
+                      </p>
+
+                    </div>
+
+                  </div>
+
+                )
+
+              }
+
               <div className="timeline-box">
 
                 <div className="timeline-dot active-dot"></div>
@@ -397,19 +451,49 @@ const CitizenComplaintDetails = () => {
 
                   <h4>
 
-                    Under Review
+                    {complaint?.status || "Under Review"}
 
                   </h4>
 
                   <p>
 
-                    Authorities are reviewing the complaint.
+                    Priority: {complaint?.priority || "Medium"}
 
                   </p>
 
                 </div>
 
               </div>
+
+              {
+
+                complaint?.investigationNotes?.map((item,index)=>(
+
+                  <div className="timeline-box" key={index}>
+
+                    <div className="timeline-dot active-dot"></div>
+
+                    <div>
+
+                      <h4>
+
+                        Officer Update
+
+                      </h4>
+
+                      <p>
+
+                        {item}
+
+                      </p>
+
+                    </div>
+
+                  </div>
+
+                ))
+
+              }
 
             </div>
 

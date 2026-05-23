@@ -63,6 +63,16 @@ const OfficerLogin = () => {
 
     }
 
+    if(!formData.email.endsWith("@reportit.com")){
+
+      alert(
+        "Officer email must end with @reportit.com"
+      );
+
+      return;
+
+    }
+
     const loggedInOfficer =
       setCurrentOfficerByEmail(formData.email);
 

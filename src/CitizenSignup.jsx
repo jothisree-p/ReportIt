@@ -14,6 +14,7 @@ import {
   FaEyeSlash,
   FaArrowLeft,
 } from "react-icons/fa";
+import { setCurrentCitizen } from "./citizenSession";
 
 const CitizenSignup = () => {
 
@@ -99,12 +100,20 @@ const CitizenSignup = () => {
 
       JSON.stringify({
 
+        fullName,
         email,
+        phone,
         password,
 
       })
 
     );
+
+    setCurrentCitizen({
+      fullName,
+      email,
+      phone,
+    });
 
     alert(
       "Account Created Successfully"

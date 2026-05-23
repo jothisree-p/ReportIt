@@ -14,11 +14,20 @@ import {
   FaArrowLeft,
   FaFileAlt,
 } from "react-icons/fa";
+import {
+  getComplaints,
+  getComplaintStats,
+} from "./complaintsData";
 
 const AdminDashboard = () => {
 
   const navigate = useNavigate();
   const [showProfile, setShowProfile] = useState(false);
+  const complaints = getComplaints();
+  const complaintStats = getComplaintStats(complaints);
+  const officers = JSON.parse(localStorage.getItem("officers")) || [];
+  const activeOfficers =
+    officers.filter((officer) => officer.status === "Active").length;
 
   const handleLogout = () => {
     if(window.confirm("Are you sure you want to logout?")){
@@ -122,7 +131,7 @@ const AdminDashboard = () => {
                 <p>TOTAL COMPLAINTS</p>
                 <FaFileAlt className="blue" />
               </div>
-              <h2>156</h2>
+              <h2>{complaintStats.total}</h2>
             </div>
 
             <div className="stat-card">
@@ -130,7 +139,7 @@ const AdminDashboard = () => {
                 <p>ACTIVE OFFICERS</p>
                 <FaUserShield className="cyan" />
               </div>
-              <h2>32</h2>
+              <h2>{activeOfficers}</h2>
             </div>
 
             <div className="stat-card">
@@ -146,7 +155,7 @@ const AdminDashboard = () => {
                 <p>RESOLUTION RATE</p>
                 <FaChartBar className="yellow" />
               </div>
-              <h2>84%</h2>
+              <h2>{complaintStats.resolutionRate}%</h2>
             </div>
 
           </div>

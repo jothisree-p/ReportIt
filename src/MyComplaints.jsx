@@ -11,6 +11,11 @@ import "./MyComplaints.css";
 
 import AIChat from "./AIChat";
 import { getComplaints } from "./complaintsData";
+import {
+  getCurrentCitizen,
+  getCitizenInitials,
+  getCitizenWelcomeText,
+} from "./citizenSession";
 
 import {
 
@@ -28,6 +33,7 @@ import {
 const MyComplaints = () => {
 
   const navigate = useNavigate();
+  const citizen = getCurrentCitizen();
 
   /* ================= STATES ================= */
 
@@ -295,7 +301,7 @@ const MyComplaints = () => {
 
             <h3>
 
-              Welcome back, Jothisree !
+              {getCitizenWelcomeText(citizen)}
 
             </h3>
 
@@ -372,7 +378,7 @@ const MyComplaints = () => {
 
               <div className="profile-circle">
 
-                JS
+                {getCitizenInitials(citizen)}
 
               </div>
 
@@ -493,7 +499,7 @@ const MyComplaints = () => {
 
                     onClick={() =>
                       navigate(
-                        "/complaint-details",
+                        "/citizen-complaint-details",
                         {
                           state:item
                         }
